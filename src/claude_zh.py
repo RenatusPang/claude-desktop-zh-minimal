@@ -18,7 +18,15 @@ import subprocess
 import sys
 from datetime import datetime, timezone
 
-TOOL_VERSION = "0.1.0"
+# Windows runners and consoles may default to cp1252/cp936.
+# Prevent localized progress messages from aborting a safe installation.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding='utf-8', errors='replace')
+    except (AttributeError, OSError, ValueError):
+        pass
+
+TOOL_VERSION = "0.1.1"
 SUPPORTED_PACKAGE_VERSION = "3.1623.0.0"
 BUNDLE_REL = Path("ion-dist/assets/v1/shared-52-DYU8GgYU.js")
 EXPECTED_ORIGINAL_SHA256 = "87400e6f593dff3c6aef0177b575da988212210f9ba4eea4652e87e5a55cb8d6"
